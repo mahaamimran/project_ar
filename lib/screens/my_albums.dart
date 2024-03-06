@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
+import 'package:project_ar/screens/about.dart';
+import 'package:project_ar/screens/new_album.dart';
 
 class MyAlbums extends StatefulWidget {
   const MyAlbums({super.key});
@@ -31,6 +33,12 @@ class _MyAlbumsState extends State<MyAlbums> {
         IconButton(
           onPressed: () {
             // navigate to about screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const About(),
+              ),
+            );
             
           },
           icon: const Icon(
@@ -79,8 +87,13 @@ class _MyAlbumsState extends State<MyAlbums> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // navigate to create album screen
-
+                // Navigate to new album
+                 Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NewAlbum(),
+              ),
+            );
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10), 

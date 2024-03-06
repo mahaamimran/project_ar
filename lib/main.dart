@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_ar/config/color_constants.dart';
-import 'package:project_ar/config/text_styles.dart';
 import 'package:project_ar/screens/my_albums.dart';
 
 void main() => runApp(const MyApp());
@@ -21,3 +19,4 @@ class MyAppState extends State<MyApp> {
     );
   }
 }
+   

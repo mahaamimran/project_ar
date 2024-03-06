@@ -12,8 +12,8 @@ class CustomTextStyles {
   );
 
   static TextStyle headingText2 = _buildTextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
     color: ColorConstants.whiteColor
   );
 
