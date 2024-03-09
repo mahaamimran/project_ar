@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
+import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/onboarding_1.dart';
 import 'package:project_ar/screens/scan_photo.dart';
 import 'package:project_ar/screens/widget_projection.dart';
+import 'package:provider/provider.dart';
 
 class NewAlbum extends StatefulWidget {
   const NewAlbum({super.key});
@@ -24,6 +26,7 @@ class _NewAlbumState extends State<NewAlbum> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final mediaItems = Provider.of<DataProvider>(context).mediaItems;
     return Scaffold(
       backgroundColor: ColorConstants.blackColorBackground,
       appBar: AppBar(
@@ -68,7 +71,9 @@ class _NewAlbumState extends State<NewAlbum> {
             SizedBox(height: 20),
             Row(
               children: [
-                Container(
+                // photo from media items
+                if (mediaItems.isNotEmpty)
+                  Container(
                     width: width * 0.4,
                     height: width * 0.4,
                     decoration: BoxDecoration(
@@ -91,11 +96,10 @@ class _NewAlbumState extends State<NewAlbum> {
                             size: 50,
                           ),
                           onPressed: () {
-                            // navigate to about screen
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ScanPhoto(),
+                                builder: (context) =>  WidgetProjectionPage(),
                               ),
                             );
                           },
@@ -107,7 +111,48 @@ class _NewAlbumState extends State<NewAlbum> {
                           ),
                         ),
                       ],
-                    )),
+                    ),
+                  ),
+                Container(
+                  width: width * 0.4,
+                  height: width * 0.4,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                      // border: 2px solid rgba(31, 41, 55, 1)
+                      color: Color.fromRGBO(31, 41, 55, 1),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.add_circle_outlined,
+                          color: ColorConstants.redColor,
+                          size: 50,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ScanPhoto(),
+                            ),
+                          );
+                        },
+                      ),
+                      Text(
+                        'Add Photo or Video',
+                        style: CustomTextStyles.headingText3.copyWith(
+                          fontSize: width * 0.03,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

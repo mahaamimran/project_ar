@@ -4,52 +4,50 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
-import 'package:project_ar/models/media_item.dart';
-import 'package:project_ar/providers/data_provider.dart';
-import 'package:project_ar/screens/record_video.dart';
-import 'package:provider/provider.dart';
+import 'package:project_ar/screens/new_album.dart';
 
-class ScanPhoto extends StatefulWidget {
-  const ScanPhoto({super.key});
+class RecordVideo extends StatefulWidget {
+  const RecordVideo({super.key});
 
   @override
-  State<ScanPhoto> createState() => _ScanPhotoState();
+  State<RecordVideo> createState() => _RecordVideoState();
 }
 
-class _ScanPhotoState extends State<ScanPhoto> {
-  File? _image;
-  Future<void> _openCameraRoll() async {
+class _RecordVideoState extends State<RecordVideo> {
+  File? _video;
+Future<void> _recordVideo() async {
+  try {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    final XFile? recordedVideo =
+        await picker.pickVideo(source: ImageSource.camera);
 
-    if (pickedFile != null) {
+    if (recordedVideo != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        _video = File(recordedVideo.path);
       });
-
-      // After selecting the image, navigate to the RecordVideoScreen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RecordVideo()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
     } else {
-      print('No image selected.');
+      print('No video recorded.');
     }
+  } catch (e) {
+    print('Failed to record video: $e');
+    // Optionally, handle the error state in your UI as well
   }
+}
 
-  Future<void> _openCamera() async {
+
+  Future<void> _importVideo() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? recordedMedia = await picker.pickVideo(
-        source: ImageSource.camera); // or pickImage for photos
+    final XFile? pickedVideo =
+        await picker.pickVideo(source: ImageSource.gallery);
 
-    if (recordedMedia != null) {
-      final mediaItem = MediaItem(
-          path: recordedMedia.path,
-          type: MediaType.video); // or MediaType.image for photos
-      Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
+    if (pickedVideo != null) {
+      setState(() {
+        _video = File(pickedVideo.path);
+      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
     } else {
-      print('No media selected or captured.');
+      print('No video selected.');
     }
   }
 
@@ -74,10 +72,10 @@ class _ScanPhotoState extends State<ScanPhoto> {
             children: [
               // green circle with white text
               Container(
-                width: 60,
-                height: 60,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
-                  color: ColorConstants.greenColor,
+                  color: ColorConstants.greyColor,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -92,10 +90,10 @@ class _ScanPhotoState extends State<ScanPhoto> {
               ),
               // red circle with white text
               Container(
-                width: 50,
-                height: 50,
+                width: 60,
+                height: 60,
                 decoration: BoxDecoration(
-                  color: ColorConstants.greyColor,
+                  color: ColorConstants.greenColor,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -134,7 +132,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 ),
                 // red button with white text
                 ElevatedButton(
-                  onPressed: _openCamera,
+                  onPressed: _recordVideo,
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.redColor,
@@ -143,7 +141,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                     ),
                   ),
                   child: Text(
-                    'Scan a Photo',
+                    'Record a Video',
                     style: CustomTextStyles.headingText1.copyWith(
                       color: ColorConstants.whiteColor,
                       fontSize: 16,
@@ -153,7 +151,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 const SizedBox(height: 10),
                 // black button with red border and red text
                 ElevatedButton(
-                  onPressed: _openCameraRoll,
+                  onPressed: _importVideo,
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.blackColorBackground,
@@ -164,7 +162,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                     ),
                   ),
                   child: Text(
-                    'Import a Photo',
+                    'Import a Video',
                     style: CustomTextStyles.headingText1.copyWith(
                       color: ColorConstants.redColor,
                       fontSize: 16,

@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/my_albums.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dataProvider = DataProvider();
+  await dataProvider.loadMediaFromPreferences();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => dataProvider,
+      child: MyApp(),
+    ),
+  );
+}
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
