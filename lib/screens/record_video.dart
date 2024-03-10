@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
+import 'package:project_ar/models/media_item.dart';
+import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/new_album.dart';
+import 'package:provider/provider.dart';
 
 class RecordVideo extends StatefulWidget {
   const RecordVideo({super.key});
@@ -15,25 +18,28 @@ class RecordVideo extends StatefulWidget {
 
 class _RecordVideoState extends State<RecordVideo> {
   File? _video;
-Future<void> _recordVideo() async {
-  try {
-    final ImagePicker picker = ImagePicker();
-    final XFile? recordedVideo =
-        await picker.pickVideo(source: ImageSource.camera);
+  Future<void> _recordVideo() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? recordedVideo =
+          await picker.pickVideo(source: ImageSource.camera);
 
-    if (recordedVideo != null) {
-      setState(() {
-        _video = File(recordedVideo.path);
-      });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
-    } else {
-      print('No video recorded.');
+      if (recordedVideo != null) {
+        setState(() {
+          _video = File(recordedVideo.path);
+        });
+        Provider.of<DataProvider>(context, listen: false).addMediaItem(
+            MediaItem(path: recordedVideo.path, type: MediaType.video));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => NewAlbum()));
+      } else {
+        print('No video recorded.');
+      }
+    } catch (e) {
+      print('Failed to record video: $e');
     }
-  } catch (e) {
-    print('Failed to record video: $e');
-    // Optionally, handle the error state in your UI as well
   }
-}
+
   Future<void> _importVideo() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedVideo =
@@ -43,7 +49,10 @@ Future<void> _recordVideo() async {
       setState(() {
         _video = File(pickedVideo.path);
       });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
+      Provider.of<DataProvider>(context, listen: false).addMediaItem(
+          MediaItem(path: pickedVideo.path, type: MediaType.video));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => NewAlbum()));
     } else {
       print('No video selected.');
     }

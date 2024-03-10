@@ -7,6 +7,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dataProvider = DataProvider();
   await dataProvider.loadMediaFromPreferences();
+  dataProvider.clearAllMediaItems();
+  
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => dataProvider,

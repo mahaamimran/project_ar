@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
 import 'package:project_ar/models/media_item.dart';
@@ -17,46 +20,6 @@ class ScanPhoto extends StatefulWidget {
 }
 
 class _ScanPhotoState extends State<ScanPhoto> {
-  File? _image;
-  Future<void> _openCameraRoll() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-
-      // After selecting the image, navigate to the RecordVideoScreen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RecordVideo()),
-      );
-    } else {
-      print('No image selected.');
-    }
-  }
-
-  Future<void> _openCamera() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? recordedMedia = await picker.pickImage(
-        source: ImageSource.camera); // or pickImage for photos
-
-    if (recordedMedia != null) {
-      final mediaItem = MediaItem(
-          path: recordedMedia.path,
-          type: MediaType.image); // or MediaType.image for photos
-      Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RecordVideo()),
-      );
-    } else {
-      print('No media selected or captured.');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +101,38 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 ),
                 // red button with white text
                 ElevatedButton(
-                  onPressed: _openCamera,
+                  onPressed: () async {
+                    final directory = await getApplicationDocumentsDirectory();
+                    String imagePath = join(directory.path,
+                        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+
+                    try {
+                      final success = await EdgeDetection.detectEdge(
+                        imagePath,
+                        canUseGallery: false,
+                      );
+                      if (!success) {
+                        print('Edge detection failed or was cancelled.');
+                        return;
+                      }
+                      // Assuming edge detection was successful and the image is saved to `imagePath`
+                      print('Image saved to $imagePath');
+                    } catch (e) {
+                      print('Error during edge detection: $e');
+                      return; // Return early to prevent further execution
+                    }
+                    // Assuming MediaItem is a construct you have for handling media in your app
+                    final mediaItem =
+                        MediaItem(path: imagePath, type: MediaType.image);
+                    Provider.of<DataProvider>(context, listen: false)
+                        .addMediaItem(mediaItem);
+
+                    // Navigate to the RecordVideo page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecordVideo()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.redColor,
@@ -157,7 +151,32 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 const SizedBox(height: 10),
                 // black button with red border and red text
                 ElevatedButton(
-                  onPressed: _openCameraRoll,
+                  onPressed: () async {
+                    String imagePath = join(
+                        (await getApplicationSupportDirectory()).path,
+                        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+
+                    bool success = false;
+                    try {
+                      //Make sure to await the call to detectEdgeFromGallery.
+                      success =
+                          await EdgeDetection.detectEdgeFromGallery(imagePath);
+                      print("success: $success");
+                    } catch (e) {
+                      print(e);
+                    }
+
+                    final mediaItem =
+                        MediaItem(path: imagePath, type: MediaType.image);
+                    Provider.of<DataProvider>(context, listen: false)
+                        .addMediaItem(mediaItem);
+
+                    // Navigate to the RecordVideo page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecordVideo()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.blackColorBackground,
