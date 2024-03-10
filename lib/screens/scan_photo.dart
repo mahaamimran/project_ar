@@ -20,6 +20,60 @@ class ScanPhoto extends StatefulWidget {
 }
 
 class _ScanPhotoState extends State<ScanPhoto> {
+  Future<void> _scanPhoto(BuildContext context) async {
+    final directory = await getApplicationDocumentsDirectory();
+    String imagePath = join(directory.path,
+        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+
+    try {
+      final success = await EdgeDetection.detectEdge(
+        imagePath,
+        canUseGallery: false,
+      );
+      if (!success) {
+        print('Edge detection failed or was cancelled.');
+        return;
+      }
+      // Assuming edge detection was successful and the image is saved to `imagePath`
+      print('Image saved to $imagePath');
+    } catch (e) {
+      print('Error during edge detection: $e');
+      return; // Return early to prevent further execution
+    }
+    // Assuming MediaItem is a construct you have for handling media in your app
+    final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
+    Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
+
+    // Navigate to the RecordVideo page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RecordVideo()),
+    );
+  }
+
+  Future<void> _importPhoto(BuildContext context) async {
+    String imagePath = join((await getApplicationSupportDirectory()).path,
+        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+
+    bool success = false;
+    try {
+      //Make sure to await the call to detectEdgeFromGallery.
+      success = await EdgeDetection.detectEdgeFromGallery(imagePath);
+      print("success: $success");
+    } catch (e) {
+      print(e);
+    }
+
+    final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
+    Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
+
+    // Navigate to the RecordVideo page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RecordVideo()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,38 +155,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 ),
                 // red button with white text
                 ElevatedButton(
-                  onPressed: () async {
-                    final directory = await getApplicationDocumentsDirectory();
-                    String imagePath = join(directory.path,
-                        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
-
-                    try {
-                      final success = await EdgeDetection.detectEdge(
-                        imagePath,
-                        canUseGallery: false,
-                      );
-                      if (!success) {
-                        print('Edge detection failed or was cancelled.');
-                        return;
-                      }
-                      // Assuming edge detection was successful and the image is saved to `imagePath`
-                      print('Image saved to $imagePath');
-                    } catch (e) {
-                      print('Error during edge detection: $e');
-                      return; // Return early to prevent further execution
-                    }
-                    // Assuming MediaItem is a construct you have for handling media in your app
-                    final mediaItem =
-                        MediaItem(path: imagePath, type: MediaType.image);
-                    Provider.of<DataProvider>(context, listen: false)
-                        .addMediaItem(mediaItem);
-
-                    // Navigate to the RecordVideo page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RecordVideo()),
-                    );
-                  },
+                  onPressed: () => _scanPhoto(context),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.redColor,
@@ -151,32 +174,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 const SizedBox(height: 10),
                 // black button with red border and red text
                 ElevatedButton(
-                  onPressed: () async {
-                    String imagePath = join(
-                        (await getApplicationSupportDirectory()).path,
-                        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
-
-                    bool success = false;
-                    try {
-                      //Make sure to await the call to detectEdgeFromGallery.
-                      success =
-                          await EdgeDetection.detectEdgeFromGallery(imagePath);
-                      print("success: $success");
-                    } catch (e) {
-                      print(e);
-                    }
-
-                    final mediaItem =
-                        MediaItem(path: imagePath, type: MediaType.image);
-                    Provider.of<DataProvider>(context, listen: false)
-                        .addMediaItem(mediaItem);
-
-                    // Navigate to the RecordVideo page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RecordVideo()),
-                    );
-                  },
+                  onPressed: () => _importPhoto(context),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.blackColorBackground,
