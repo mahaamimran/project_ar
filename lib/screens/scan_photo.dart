@@ -40,14 +40,18 @@ class _ScanPhotoState extends State<ScanPhoto> {
 
   Future<void> _openCamera() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? recordedMedia = await picker.pickVideo(
+    final XFile? recordedMedia = await picker.pickImage(
         source: ImageSource.camera); // or pickImage for photos
 
     if (recordedMedia != null) {
       final mediaItem = MediaItem(
           path: recordedMedia.path,
-          type: MediaType.video); // or MediaType.image for photos
+          type: MediaType.image); // or MediaType.image for photos
       Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RecordVideo()),
+      );
     } else {
       print('No media selected or captured.');
     }

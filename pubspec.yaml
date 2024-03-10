@@ -17,7 +17,7 @@ dependencies:
   path:
   provider:
   shared_preferences:
-
+  video_thumbnail:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -19,6 +19,12 @@ class DataProvider with ChangeNotifier {
     saveMediaToPreferences();
     notifyListeners();
   }
+  
+  void clearAllMediaItems() {
+    _mediaItems.clear();
+    saveMediaToPreferences();
+    notifyListeners();
+  }
 
   Future<void> loadMediaFromPreferences() async {
     final prefs = await SharedPreferences.getInstance();

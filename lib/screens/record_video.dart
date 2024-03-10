@@ -34,8 +34,6 @@ Future<void> _recordVideo() async {
     // Optionally, handle the error state in your UI as well
   }
 }
-
-
   Future<void> _importVideo() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedVideo =
