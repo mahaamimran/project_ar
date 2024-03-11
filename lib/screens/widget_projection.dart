@@ -6,9 +6,19 @@ import 'package:project_ar/config/text_styles.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class WidgetProjectionPage extends StatefulWidget {
+  final String imagePath;
+  final String videoPath;
+
+  const WidgetProjectionPage({
+    Key? key,
+    required this.imagePath,
+    required this.videoPath,
+  }) : super(key: key);
+
   @override
   _WidgetProjectionPageState createState() => _WidgetProjectionPageState();
 }
+
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
   late ARKitController arkitController;
@@ -25,6 +35,15 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
     super.dispose();
   }
 
+  @override
+    void initState() {
+    super.initState();
+    // Example usage
+    print("Image Path: ${widget.imagePath}");
+    print("Video Path: ${widget.videoPath}");
+    // If you need to perform actions based on imagePath or videoPath,
+    // you can do so here.
+  }
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(

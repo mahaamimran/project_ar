@@ -1,13 +1,13 @@
 import 'package:flutter/services.dart';
 
 class ARKitHelper {
-  static const MethodChannel _channel = MethodChannel('com.example.yourapp/arkit');
+  static const platform = MethodChannel('com.yourcompany.project/arkit_helper');
 
-  static Future<void> updateTrackingImages(String imagePath) async {
+  static Future<void> sendImageToARKit(Uint8List imageData) async {
     try {
-      await _channel.invokeMethod('updateTrackingImages', {'imagePath': imagePath});
+      await platform.invokeMethod('sendImageToARKit', {'imageData': imageData});
     } on PlatformException catch (e) {
-      print("Failed to update AR tracking images: '${e.message}'.");
+      print("Failed to send image to ARKit: '${e.message}'.");
     }
   }
 }

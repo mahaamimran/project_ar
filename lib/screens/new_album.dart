@@ -185,7 +185,7 @@ class _NewAlbumState extends State<NewAlbum> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  WidgetProjectionPage()));
+                              builder: (context) =>  WidgetProjectionPage(imagePath: MediaPairs[0].photo!.path, videoPath: MediaPairs[0].video!.path)));
                     },
                     child: Container(
                       width: 80,
