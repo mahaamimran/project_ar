@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project_ar/config/color_constants.dart';
@@ -42,12 +41,11 @@ class _ScanPhotoState extends State<ScanPhoto> {
     }
     // Assuming MediaItem is a construct you have for handling media in your app
     final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
-    Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
 
     // Navigate to the RecordVideo page
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RecordVideo()),
+      MaterialPageRoute(builder: (context) => RecordVideo(photo: mediaItem)),
     );
   }
 
@@ -65,13 +63,8 @@ class _ScanPhotoState extends State<ScanPhoto> {
     }
 
     final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
-    Provider.of<DataProvider>(context, listen: false).addMediaItem(mediaItem);
-
-    // Navigate to the RecordVideo page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => RecordVideo()),
-    );
+    Navigator.push(context,MaterialPageRoute(builder: (context) => RecordVideo(photo: mediaItem)));
+    
   }
 
   @override

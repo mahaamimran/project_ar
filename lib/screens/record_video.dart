@@ -5,12 +5,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
 import 'package:project_ar/models/media_item.dart';
+import 'package:project_ar/models/media_pair.dart';
 import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/new_album.dart';
 import 'package:provider/provider.dart';
 
 class RecordVideo extends StatefulWidget {
-  const RecordVideo({super.key});
+  final MediaItem photo; // Photo passed as a parameter
+
+  const RecordVideo({Key? key, required this.photo}) : super(key: key);
 
   @override
   State<RecordVideo> createState() => _RecordVideoState();
@@ -28,10 +31,12 @@ class _RecordVideoState extends State<RecordVideo> {
         setState(() {
           _video = File(recordedVideo.path);
         });
-        Provider.of<DataProvider>(context, listen: false).addMediaItem(
-            MediaItem(path: recordedVideo.path, type: MediaType.video));
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NewAlbum()));
+
+        final mediaItem = MediaItem(path: recordedVideo.path, type: MediaType.video);
+        final mediaPair = MediaPair(photo: widget.photo, video: mediaItem);
+        Provider.of<DataProvider>(context, listen: false).addMediaPair(mediaPair);
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
       } else {
         print('No video recorded.');
       }
@@ -49,10 +54,12 @@ class _RecordVideoState extends State<RecordVideo> {
       setState(() {
         _video = File(pickedVideo.path);
       });
-      Provider.of<DataProvider>(context, listen: false).addMediaItem(
-          MediaItem(path: pickedVideo.path, type: MediaType.video));
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => NewAlbum()));
+
+      final mediaItem = MediaItem(path: pickedVideo.path, type: MediaType.video);
+      final mediaPair = MediaPair(photo: widget.photo, video: mediaItem);
+      Provider.of<DataProvider>(context, listen: false).addMediaPair(mediaPair);
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
     } else {
       print('No video selected.');
     }

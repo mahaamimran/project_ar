@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/models/media_item.dart';
+import 'package:project_ar/models/media_pair.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class DataProvider with ChangeNotifier {
   List<MediaItem> _mediaItems = [];
+  List<MediaPair> _mediaPairs = [];
 
   List<MediaItem> get mediaItems => _mediaItems;
+  List<MediaPair> get mediaPairs => _mediaPairs;
+
+void addMediaPair(MediaPair pair) {
+    _mediaPairs.add(pair);
+    notifyListeners();
+  }
 
   void addMediaItem(MediaItem item) {
     _mediaItems.add(item);
