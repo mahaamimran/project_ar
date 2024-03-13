@@ -11,7 +11,7 @@ import 'package:project_ar/screens/new_album.dart';
 import 'package:provider/provider.dart';
 
 class RecordVideo extends StatefulWidget {
-  final MediaItem photo; // Photo passed as a parameter
+  final MediaItem photo; 
 
   const RecordVideo({Key? key, required this.photo}) : super(key: key);
 
@@ -36,7 +36,7 @@ class _RecordVideoState extends State<RecordVideo> {
         final mediaPair = MediaPair(photo: widget.photo, video: mediaItem);
         Provider.of<DataProvider>(context, listen: false).addMediaPair(mediaPair);
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const NewAlbum()));
       } else {
         print('No video recorded.');
       }
@@ -58,8 +58,9 @@ class _RecordVideoState extends State<RecordVideo> {
       final mediaItem = MediaItem(path: pickedVideo.path, type: MediaType.video);
       final mediaPair = MediaPair(photo: widget.photo, video: mediaItem);
       Provider.of<DataProvider>(context, listen: false).addMediaPair(mediaPair);
+      // pop twice to go back to albums
+      Navigator.pop(context);Navigator.pop(context);
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => NewAlbum()));
     } else {
       print('No video selected.');
     }
@@ -80,7 +81,7 @@ class _RecordVideoState extends State<RecordVideo> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -88,7 +89,7 @@ class _RecordVideoState extends State<RecordVideo> {
               Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: ColorConstants.greyColor,
                   shape: BoxShape.circle,
                 ),
@@ -106,7 +107,7 @@ class _RecordVideoState extends State<RecordVideo> {
               Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: ColorConstants.greenColor,
                   shape: BoxShape.circle,
                 ),
@@ -148,7 +149,7 @@ class _RecordVideoState extends State<RecordVideo> {
                 ElevatedButton(
                   onPressed: _recordVideo,
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.redColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -167,12 +168,12 @@ class _RecordVideoState extends State<RecordVideo> {
                 ElevatedButton(
                   onPressed: _importVideo,
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.blackColorBackground,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side:
-                          BorderSide(color: ColorConstants.redColor, width: 2),
+                          const BorderSide(color: ColorConstants.redColor, width: 2),
                     ),
                   ),
                   child: Text(

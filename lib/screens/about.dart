@@ -117,7 +117,7 @@ class _AboutState extends State<About> {
   }
 }
 
-// Placeholder for PremiumFeaturesScreen
+// Placeholder for PremiumFeaturesScreen temporary
 class PremiumFeaturesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

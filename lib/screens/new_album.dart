@@ -7,9 +7,8 @@ import 'package:project_ar/models/media_item.dart';
 import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/scan_photo.dart';
 import 'package:project_ar/screens/widget_projection.dart';
-import 'package:project_ar/services/ar_kit_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:video_thumbnail/video_thumbnail.dart'; // Import the video_thumbnail package
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class NewAlbum extends StatefulWidget {
   const NewAlbum({Key? key}) : super(key: key);
@@ -38,8 +37,8 @@ class _NewAlbumState extends State<NewAlbum> {
       final thumbnail = await VideoThumbnail.thumbnailData(
         video: mediaItem.path,
         imageFormat: ImageFormat.JPEG,
-        maxWidth: 128, // Specify the width of the thumbnail
-        quality: 25,
+        maxWidth: 128,
+        quality: 100,
       );
       return MemoryImage(thumbnail!);
     } else {
@@ -50,10 +49,10 @@ class _NewAlbumState extends State<NewAlbum> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final MediaPairs = Provider.of<DataProvider>(context).mediaPairs;
+    final mediaPairs = Provider.of<DataProvider>(context).mediaPairs;
 
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.blackColorBackground,
       appBar: AppBar(
         centerTitle: true,
@@ -97,19 +96,15 @@ class _NewAlbumState extends State<NewAlbum> {
                   child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          2, // Determines the number of items in a row; set to 2 for a pair and an add button
-                      childAspectRatio: 1, // Makes each item square
+                      crossAxisCount: 2,
+                      childAspectRatio: 1, // each item square
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount: MediaPairs.length * 2 +
-                        1, // Each pair takes up two slots, +1 for the add button
+                    itemCount: mediaPairs.length * 2 + 1, // add button
                     itemBuilder: (context, index) {
-                      // Calculate the actual index for MediaPairs based on the current index
                       int pairIndex = index ~/ 2;
-
-                      if (index == MediaPairs.length * 2) {
+                      if (index == mediaPairs.length * 2) {
                         // The add button
                         return GestureDetector(
                           onTap: () {
@@ -129,7 +124,7 @@ class _NewAlbumState extends State<NewAlbum> {
                         );
                       } else if (index % 2 == 0) {
                         // Photo thumbnail
-                        final mediaPair = MediaPairs[pairIndex];
+                        final mediaPair = mediaPairs[pairIndex];
                         return Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -141,7 +136,7 @@ class _NewAlbumState extends State<NewAlbum> {
                         );
                       } else {
                         // Video thumbnail with FutureBuilder
-                        final mediaPair = MediaPairs[pairIndex];
+                        final mediaPair = mediaPairs[pairIndex];
                         return FutureBuilder<ImageProvider>(
                           future: _getThumbnail(mediaPair.video!),
                           builder: (BuildContext context,
@@ -173,7 +168,7 @@ class _NewAlbumState extends State<NewAlbum> {
           ),
 
           // add floating action button at bottom center if MediaPairs is not empty
-          if (MediaPairs.isNotEmpty)
+          if (mediaPairs.isNotEmpty)
             Positioned(
               bottom: 30,
               left: width / 2 - 40,
@@ -185,19 +180,22 @@ class _NewAlbumState extends State<NewAlbum> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  WidgetProjectionPage(imagePath: MediaPairs[0].photo!.path, videoPath: MediaPairs[0].video!.path)));
+                              builder: (context) => WidgetProjectionPage(
+                                  imagePath: mediaPairs[0].photo!.path,
+                                  videoPath: mediaPairs[0].video!.path)));
                     },
                     child: Container(
                       width: 80,
                       height: 80,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.camera_alt, size: 32, color: Colors.white),
+                      child:
+                          const Icon(Icons.camera_alt, size: 32, color: Colors.white),
                     ),
                   ),
-                  SizedBox(width: 32), // Adjust spacing as desired
+                  const SizedBox(width: 32), 
                   InkWell(
                     onTap: () {
                       // Trigger upload functionality
@@ -205,11 +203,12 @@ class _NewAlbumState extends State<NewAlbum> {
                     child: Container(
                       width: 50,
                       height: 50,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.file_upload, size: 24, color: Colors.black),
+                      child: const Icon(Icons.file_upload,
+                          size: 24, color: Colors.black),
                     ),
                   ),
                 ],

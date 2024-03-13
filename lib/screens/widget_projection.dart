@@ -38,11 +38,8 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
   @override
     void initState() {
     super.initState();
-    // Example usage
     print("Image Path: ${widget.imagePath}");
     print("Video Path: ${widget.videoPath}");
-    // If you need to perform actions based on imagePath or videoPath,
-    // you can do so here.
   }
   @override
   Widget build(BuildContext context) => Scaffold(
