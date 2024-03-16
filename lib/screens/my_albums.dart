@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
-import 'package:project_ar/screens/about.dart';
+import 'package:project_ar/screens/about%20screens/about.dart';
 import 'package:project_ar/screens/new_album.dart';
 
 class MyAlbums extends StatefulWidget {

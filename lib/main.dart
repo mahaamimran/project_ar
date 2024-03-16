@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/my_albums.dart';
+import 'package:project_ar/screens/widget_projection.dart';
 import 'package:provider/provider.dart';
+import 'package:ar_quido/ar_quido.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   google_fonts:
-  arkit_plugin: ^1.0.7
+  #arkit_plugin: ^1.0.7
   image_picker: 
   path_provider: 
   path:
@@ -19,6 +19,9 @@ dependencies:
   shared_preferences:
   video_thumbnail:
   edge_detection: ^1.1.3
+  ar_quido: ^0.2.0
+  permission_handler:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -26,3 +29,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/reference_images/

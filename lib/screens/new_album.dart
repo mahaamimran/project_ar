@@ -178,11 +178,14 @@ class _NewAlbumState extends State<NewAlbum> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WidgetProjectionPage(
-                                  imagePath: mediaPairs[0].photo!.path,
-                                  videoPath: mediaPairs[0].video!.path)));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WidgetProjectionPage(
+                              // imagePath: mediaPairs[0].photo!.path,
+                              // videoPath: mediaPairs[0].video!.path
+                              ),
+                        ),
+                      );
                     },
                     child: Container(
                       width: 80,
@@ -191,11 +194,11 @@ class _NewAlbumState extends State<NewAlbum> {
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
-                      child:
-                          const Icon(Icons.camera_alt, size: 32, color: Colors.white),
+                      child: const Icon(Icons.camera_alt,
+                          size: 32, color: Colors.white),
                     ),
                   ),
-                  const SizedBox(width: 32), 
+                  const SizedBox(width: 32),
                   InkWell(
                     onTap: () {
                       // Trigger upload functionality

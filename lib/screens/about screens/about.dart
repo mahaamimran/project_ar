@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
+import 'package:project_ar/screens/about%20screens/premium_features.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -117,16 +118,7 @@ class _AboutState extends State<About> {
   }
 }
 
-// Placeholder for PremiumFeaturesScreen temporary
-class PremiumFeaturesScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Premium Features')),
-      // Your screen content here
-    );
-  }
-}
+
 
 // Placeholder for HelpScreen
 class HelpScreen extends StatelessWidget {
