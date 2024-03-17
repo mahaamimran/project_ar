@@ -181,8 +181,8 @@ class _NewAlbumState extends State<NewAlbum> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => WidgetProjectionPage(
-                              // imagePath: mediaPairs[0].photo!.path,
-                              // videoPath: mediaPairs[0].video!.path
+                               imagePath: mediaPairs[0].photo!.path,
+                               videoPath: mediaPairs[0].video!.path
                               ),
                         ),
                       );

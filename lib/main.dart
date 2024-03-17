@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/my_albums.dart';
+import 'package:project_ar/screens/new_album.dart';
 import 'package:project_ar/screens/widget_projection.dart';
 import 'package:provider/provider.dart';
 import 'package:ar_quido/ar_quido.dart';
@@ -33,7 +34,7 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyAlbums(),
+      home: NewAlbum(),
       debugShowCheckedModeBanner: false,
     );
   }

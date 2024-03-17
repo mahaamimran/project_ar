@@ -4,15 +4,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WidgetProjectionPage extends StatefulWidget {
-  const WidgetProjectionPage({super.key});
+  final String imagePath;
+  final String videoPath;
+
+  const WidgetProjectionPage({
+    Key? key,
+    required this.imagePath,
+    required this.videoPath,
+  }) : super(key: key);
 
   @override
-  State<WidgetProjectionPage> createState() => _WidgetProjectionPageState();
+  _WidgetProjectionPageState createState() => _WidgetProjectionPageState();
 }
+
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
   String? _recognizedImage;
+  final List<String> _referenceImageNames = [];
 
+  @override
+  void initState() {
+    super.initState();
+    _referenceImageNames.add(widget.imagePath);
+  }
   void _onImageDetected(BuildContext context, String? imageName) {
     if (imageName != null && _recognizedImage != imageName) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -49,7 +63,7 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
             return Stack(
               children: [
                 ARQuidoView(
-                  referenceImageNames: const ['earth2'],
+                  referenceImageNames: _referenceImageNames,
                   onImageDetected: (imageName) =>
                       _onImageDetected(context, imageName),
                   onDetectedImageTapped: (imageName) =>

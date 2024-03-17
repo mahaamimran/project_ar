@@ -1,15 +1,13 @@
 import 'dart:io';
-
-import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:edge_detection/edge_detection.dart'; // Assuming you have edge_detection plugin
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
 import 'package:project_ar/models/media_item.dart';
-import 'package:project_ar/providers/data_provider.dart';
 import 'package:project_ar/screens/record_video.dart';
-import 'package:provider/provider.dart';
 
 class ScanPhoto extends StatefulWidget {
   const ScanPhoto({super.key});
@@ -21,8 +19,16 @@ class ScanPhoto extends StatefulWidget {
 class _ScanPhotoState extends State<ScanPhoto> {
   Future<void> _scanPhoto(BuildContext context) async {
     final directory = await getApplicationDocumentsDirectory();
-    String imagePath = join(directory.path,
-        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+    final fileName =
+        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpg";
+    final imagePath = p.join(
+        directory.path, "reference_images", fileName); // Adjust path as needed
+
+    // Ensure the directory exists
+    final imageDirectory = Directory(p.dirname(imagePath));
+    if (!await imageDirectory.exists()) {
+      await imageDirectory.create(recursive: true);
+    }
 
     try {
       final success = await EdgeDetection.detectEdge(
@@ -39,6 +45,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
       print('Error during edge detection: $e');
       return; // Return early to prevent further execution
     }
+
     // Assuming MediaItem is a construct you have for handling media in your app
     final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
 
@@ -51,7 +58,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
 
   Future<void> _importPhoto(BuildContext context) async {
     String imagePath = join((await getApplicationSupportDirectory()).path,
-        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
+        "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpg");
 
     bool success = false;
     try {
@@ -63,8 +70,8 @@ class _ScanPhotoState extends State<ScanPhoto> {
     }
 
     final mediaItem = MediaItem(path: imagePath, type: MediaType.image);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => RecordVideo(photo: mediaItem)));
-    
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => RecordVideo(photo: mediaItem)));
   }
 
   @override
