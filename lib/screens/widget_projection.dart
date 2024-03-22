@@ -27,13 +27,14 @@ class AROverlayWidget extends StatelessWidget {
 }
 
 class WidgetProjectionPage extends StatefulWidget {
-  final String imagePath;
-  final String videoPath;
+  // List of strings of video paths and image paths
+  final List<String> referenceImageNames;
+  final List<String> referenceVideoNames;
 
-  const WidgetProjectionPage({
+  WidgetProjectionPage({
     Key? key,
-    required this.imagePath,
-    required this.videoPath,
+    required this.referenceImageNames,
+    required this.referenceVideoNames,
   }) : super(key: key);
 
   @override
@@ -41,44 +42,7 @@ class WidgetProjectionPage extends StatefulWidget {
 }
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
-  String? _recognizedImage;
-  final List<String> _referenceImageNames = [];
-   String anchorId = '';
-  double x = 0, y = 0;
-  double width = 1, height = 1;
-  Matrix4 transform = Matrix4.identity();
 
-  @override
-  void initState() {
-    super.initState();
-    _referenceImageNames.add(widget.imagePath);
-  }
-
-  void _onImageDetected(BuildContext context, String? imageName) {
-    if (imageName != null && _recognizedImage != imageName) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Recognized image: $imageName'),
-          duration: const Duration(milliseconds: 2500),
-        ),
-      );
-    }
-    setState(() {
-      _recognizedImage = imageName;
-    });
-  }
-
-  void _onDetectedImageTapped(BuildContext context, String? imageName) {
-    if (imageName != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Tapped on image: $imageName'),
-          duration: const Duration(milliseconds: 1500),
-        ),
-      );
-    }
-  }
-  // functions to update the image projected when camera is opened
 
   @override
   Widget build(BuildContext context) {
@@ -91,25 +55,9 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
           return Stack(
             children: [
               ARQuidoView(
-                referenceImageNames: _referenceImageNames,
-                referenceVideoNames: [widget.videoPath],
-                onImageDetected: (imageName) =>
-                    _onImageDetected(context, imageName),
-                onDetectedImageTapped: (imageName) =>
-                    _onDetectedImageTapped(context, imageName),
-              ),
-              if (_recognizedImage != null)
-              Positioned(
-                left: x,
-                top: y,
-                child: Container(
-                  transform: transform,
-                  width: width,
-                  height: height,
-                  child: const MyHomePage(
-                    title: 'Widgets in AR',
-                  ),
-                ),
+                referenceImageNames: widget.referenceImageNames,
+                referenceVideoNames: widget.referenceVideoNames,
+                onImageDetected: (imageName) {},
               ),
             ],
           );

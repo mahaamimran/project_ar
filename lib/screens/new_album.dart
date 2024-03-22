@@ -166,9 +166,9 @@ class _NewAlbumState extends State<NewAlbum> {
               ],
             ),
           ),
-
-          // add floating action button at bottom center if MediaPairs is not empty
-          if (mediaPairs.isNotEmpty)
+          
+          // add floating action button at bottom center if MediaPairs is not empty and is less than 3
+          if (mediaPairs.isNotEmpty && mediaPairs.length < 3)
             Positioned(
               bottom: 30,
               left: width / 2 - 40,
@@ -181,8 +181,10 @@ class _NewAlbumState extends State<NewAlbum> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => WidgetProjectionPage(
-                              imagePath: mediaPairs[0].photo!.path,
-                              videoPath: mediaPairs[0].video!.path),
+                            // sending whole list of image and video paths
+                              referenceImageNames: mediaPairs.map((pair) => pair.photo!.path).toList(),
+                              referenceVideoNames: mediaPairs.map((pair) => pair.video!.path).toList()
+                              ),
                         ),
                       );
                     },
