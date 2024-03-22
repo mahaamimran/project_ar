@@ -2,6 +2,7 @@ import 'package:ar_quido/ar_quido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class AROverlayWidget extends StatelessWidget {
   final Offset
       position; // Position where you want to place the dot on the screen
@@ -91,21 +92,11 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
             children: [
               ARQuidoView(
                 referenceImageNames: _referenceImageNames,
+                referenceVideoNames: [widget.videoPath],
                 onImageDetected: (imageName) =>
                     _onImageDetected(context, imageName),
                 onDetectedImageTapped: (imageName) =>
                     _onDetectedImageTapped(context, imageName),
-                  onRecognitionStarted: () {
-                    // project widget on recognised image
-                    setState(() {
-                      x = 100;
-                      y = 100;
-                      width = 200;
-                      height = 200;
-                      transform = Matrix4.identity();
-                    });
-                    
-                  },
               ),
               if (_recognizedImage != null)
               Positioned(

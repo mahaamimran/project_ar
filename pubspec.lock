@@ -4,10 +4,11 @@ packages:
   ar_quido:
     dependency: "direct main"
     description:
-      name: ar_quido
-      sha256: a618ade8c7d8a02f83b9184ab07a977eb34feb4065463bb9b013a3f457e077ae
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "0966df15ff52a214d017f8eae052d68b2e6acca0"
+      url: "https://github.com/mahaamimran/ar_quido.git"
+    source: git
     version: "0.2.0"
   async:
     dependency: transitive
