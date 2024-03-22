@@ -89,7 +89,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -97,7 +97,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
               Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: ColorConstants.greenColor,
                   shape: BoxShape.circle,
                 ),
@@ -115,7 +115,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
               Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: ColorConstants.greyColor,
                   shape: BoxShape.circle,
                 ),
@@ -157,7 +157,7 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 ElevatedButton(
                   onPressed: () => _scanPhoto(context),
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.redColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -176,12 +176,12 @@ class _ScanPhotoState extends State<ScanPhoto> {
                 ElevatedButton(
                   onPressed: () => _importPhoto(context),
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                     backgroundColor: ColorConstants.blackColorBackground,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side:
-                          BorderSide(color: ColorConstants.redColor, width: 2),
+                          const BorderSide(color: ColorConstants.redColor, width: 2),
                     ),
                   ),
                   child: Text(
