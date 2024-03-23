@@ -101,11 +101,14 @@ class _NewAlbumState extends State<NewAlbum> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount: mediaPairs.length * 2 + 1, // add button
+                    itemCount: mediaPairs.length >= 3
+                        ? mediaPairs.length * 2
+                        : mediaPairs.length * 2 + 1, // conditionally add button
                     itemBuilder: (context, index) {
                       int pairIndex = index ~/ 2;
-                      if (index == mediaPairs.length * 2) {
-                        // The add button
+                      if (index == mediaPairs.length * 2 &&
+                          mediaPairs.length < 3) {
+                        // The add button, only show if mediaPairs.length is less than 2
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -166,9 +169,9 @@ class _NewAlbumState extends State<NewAlbum> {
               ],
             ),
           ),
-          
+
           // add floating action button at bottom center if MediaPairs is not empty and is less than 3
-          if (mediaPairs.isNotEmpty && mediaPairs.length < 3)
+          if (mediaPairs.isNotEmpty)
             Positioned(
               bottom: 30,
               left: width / 2 - 40,
@@ -177,14 +180,20 @@ class _NewAlbumState extends State<NewAlbum> {
                 children: [
                   InkWell(
                     onTap: () {
+                      print(
+                          'referenceImageNames: ${mediaPairs.map((pair) => pair.photo!.path).toList()}');
+                      print(
+                          'referenceVideoNames: ${mediaPairs.map((pair) => pair.video!.path).toList()}');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => WidgetProjectionPage(
-                            // sending whole list of image and video paths
-                              referenceImageNames: mediaPairs.map((pair) => pair.photo!.path).toList(),
-                              referenceVideoNames: mediaPairs.map((pair) => pair.video!.path).toList()
-                              ),
+                              referenceImageNames: mediaPairs
+                                  .map((pair) => pair.photo!.path)
+                                  .toList(),
+                              referenceVideoNames: mediaPairs
+                                  .map((pair) => pair.video!.path)
+                                  .toList()),
                         ),
                       );
                     },
