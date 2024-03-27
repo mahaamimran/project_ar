@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:project_ar/providers/data_provider.dart';
+import 'package:project_ar/providers/settings_provider.dart';
 import 'package:project_ar/screens/my_albums.dart';
 import 'package:project_ar/screens/new_album.dart';
 import 'package:project_ar/screens/widget_projection.dart';
@@ -10,13 +11,17 @@ import 'package:ar_quido/ar_quido.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dataProvider = DataProvider();
+  final settingsProvider = SettingsProvider();
   await dataProvider.loadMediaFromPreferences();
   dataProvider.clearAllMediaItems();
   
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => dataProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => dataProvider),
+        ChangeNotifierProvider(create: (context) => settingsProvider),
+      ],
       child: MyApp(),
     ),
   );

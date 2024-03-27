@@ -5,6 +5,7 @@ import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
 import 'package:project_ar/models/media_item.dart';
 import 'package:project_ar/providers/data_provider.dart';
+import 'package:project_ar/providers/settings_provider.dart';
 import 'package:project_ar/screens/scan_photo.dart';
 import 'package:project_ar/screens/widget_projection.dart';
 import 'package:provider/provider.dart';
@@ -50,14 +51,16 @@ class _NewAlbumState extends State<NewAlbum> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final mediaPairs = Provider.of<DataProvider>(context).mediaPairs;
-
+    final language = Provider.of<SettingsProvider>(context).language;
+    bool isItalian = language == 'it';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.blackColorBackground,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: ColorConstants.blackColorBackground,
-        title: Text('New Album',
+        title: Text( isItalian ? 'Nuovo Album' :
+          'New Album',
             style: CustomTextStyles.headingText1
                 .copyWith(color: ColorConstants.whiteColor)),
         leading: IconButton(
@@ -72,7 +75,8 @@ class _NewAlbumState extends State<NewAlbum> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Album Title',
+                Text( isItalian ? 'Titolo' :
+                  'Album Title',
                     style: CustomTextStyles.headingText2
                         .copyWith(color: ColorConstants.whiteColor)),
                 const SizedBox(height: 10),
@@ -80,7 +84,8 @@ class _NewAlbumState extends State<NewAlbum> {
                   controller: searchTextController,
                   style: CustomTextStyles.headingText3,
                   decoration: InputDecoration(
-                    hintText: "Enter your album's title here",
+                    hintText: isItalian ? "Inserisci il titolo del tuo album" :
+                    "Enter your album's title here",
                     hintStyle: CustomTextStyles.headingText3
                         .copyWith(color: Colors.grey),
                     fillColor: const Color.fromRGBO(17, 24, 39, 1),

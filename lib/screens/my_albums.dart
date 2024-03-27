@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_ar/config/color_constants.dart';
 import 'package:project_ar/config/text_styles.dart';
+import 'package:project_ar/providers/settings_provider.dart';
 import 'package:project_ar/screens/about%20screens/about.dart';
 import 'package:project_ar/screens/new_album.dart';
+import 'package:provider/provider.dart';
 
 class MyAlbums extends StatefulWidget {
   const MyAlbums({super.key});
@@ -14,18 +16,21 @@ class MyAlbums extends StatefulWidget {
 class _MyAlbumsState extends State<MyAlbums> {
   @override
   Widget build(BuildContext context) {
+    final language = Provider.of<SettingsProvider>(context).language;
+    bool isItalian = language == 'it';
     return Scaffold(
       backgroundColor: ColorConstants.primaryColor,
-      appBar: appBar(),
-      body: body(),
+      appBar: appBar(isItalian),
+      body: body(isItalian),
     );
   }
 
-  AppBar appBar() {
+  AppBar appBar(bool isItalian) {
     return AppBar(
       centerTitle: true,
       backgroundColor: ColorConstants.primaryColor,
       title: Text(
+        isItalian ? 'I miei album' :
         'My Albums',
         style: CustomTextStyles.headingText1,
       ),
@@ -39,7 +44,6 @@ class _MyAlbumsState extends State<MyAlbums> {
                 builder: (context) => const About(),
               ),
             );
-            
           },
           icon: const Icon(
             Icons.list,
@@ -50,7 +54,7 @@ class _MyAlbumsState extends State<MyAlbums> {
     );
   }
 
-  Widget body() {
+  Widget body(bool isItalian) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Center(
@@ -60,7 +64,7 @@ class _MyAlbumsState extends State<MyAlbums> {
         height: height * 0.38,
         decoration: BoxDecoration(
           border: Border.all(
-            width:  1.5,
+            width: 1.5,
             color: ColorConstants.greyColor,
           ),
           borderRadius: BorderRadius.circular(20),
@@ -77,10 +81,12 @@ class _MyAlbumsState extends State<MyAlbums> {
             const SizedBox(height: 5),
             // let's start text
             Text(
+              isItalian ? 'Iniziamo!' :
               'Let\'s Start!',
               style: CustomTextStyles.headingText1,
             ),
             Text(
+              isItalian ? 'Crea il tuo primo album' :
               'Create your first album',
               style: CustomTextStyles.headingText3,
             ),
@@ -88,21 +94,22 @@ class _MyAlbumsState extends State<MyAlbums> {
             ElevatedButton(
               onPressed: () {
                 // Navigate to new album
-                 Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const NewAlbum(),
-              ),
-            );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewAlbum(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10), 
+                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
                 backgroundColor: ColorConstants.redColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: Text(
+                isItalian ? 'Crealo ora' :
                 'Create',
                 style: CustomTextStyles.headingText1.copyWith(
                   color: ColorConstants.whiteColor,
