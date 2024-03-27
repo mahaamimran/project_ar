@@ -1,7 +1,8 @@
 import 'package:ar_quido/ar_quido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:project_ar/config/color_constants.dart';
+import 'package:project_ar/config/text_styles.dart';
 
 class AROverlayWidget extends StatelessWidget {
   final Offset
@@ -42,13 +43,15 @@ class WidgetProjectionPage extends StatefulWidget {
 }
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin example app'),
+        title: Text(
+          'See your videos come to life!',
+          style: CustomTextStyles.headingText1,
+        ),
+        backgroundColor: ColorConstants.blackColorBackground,
       ),
       body: Builder(
         builder: (context) {
@@ -66,6 +69,7 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
     );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     Key? key,
@@ -75,6 +79,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 // what is being projected
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;

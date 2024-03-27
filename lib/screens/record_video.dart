@@ -143,7 +143,7 @@ class _RecordVideoState extends State<RecordVideo> {
               children: [
                 // grey image icon
                 const Icon(
-                  Icons.image,
+                  Icons.videocam,
                   color: ColorConstants.greyColor,
                   size: 100,
                 ),
